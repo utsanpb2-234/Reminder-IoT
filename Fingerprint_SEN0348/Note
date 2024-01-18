@@ -1,2 +1,7 @@
 Document:
 https://wiki.dfrobot.com/Capacitive_Fingerprint_Sensor_SKU_SEN0348
+
+Troubleshoot: 
+1. Error: control reaches end of non-void function:
+
+Modify DFRobot_ID809.cpp, add "return 0" for some functions.
