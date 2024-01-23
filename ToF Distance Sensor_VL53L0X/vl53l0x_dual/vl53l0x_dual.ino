@@ -1,5 +1,11 @@
 #include "Adafruit_VL53L0X.h"
 
+/*
+reset pins connection - arduino nano rp2040 connect
+sensor 1: D7 (GPIO19)
+sensor 2: D6 (GPIO18)
+*/
+
 // address we will assign if dual sensor is present
 #define LOX1_ADDRESS 0x30
 #define LOX2_ADDRESS 0x31

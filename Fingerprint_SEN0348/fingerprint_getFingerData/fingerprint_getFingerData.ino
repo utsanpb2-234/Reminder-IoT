@@ -31,7 +31,7 @@ void setup(){
     Return true or false
     */
   while(fingerprint.isConnected() == false){
-    Serial.println("Communication with device failed, please check connection");
+    // Serial.println("Communication with device failed, please check connection");
     /*Get error code information */
     //desc = fingerprint.getErrorDescription();
     //Serial.println(desc);
@@ -42,7 +42,7 @@ void setup(){
 void loop(){
   /*Set the fingerprint module LED ring to blue breathing lighting effect*/
   fingerprint.ctrlLED(/*LEDMode = */fingerprint.eBreathing, /*LEDColor = */fingerprint.eLEDBlue, /*blinkCount = */0);
-  Serial.println("Please release your finger");
+  // Serial.println("Please release your finger");
   /*Wait for finger to release
     Return 1 when finger is detected, otherwise return 0 
    */
@@ -52,9 +52,10 @@ void loop(){
   fingerprint.getFingerImage(data);
 
   //Display the image on the screen
-  for(uint16_t i = 0; i < 25600 ;i++){
+  for(uint16_t i = 0; i < 25599 ;i++){
      Serial.print(data[i]);
      Serial.print(",");
    }
+  Serial.println(data[25599]);
   delay(1000);
 }

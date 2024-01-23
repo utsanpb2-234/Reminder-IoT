@@ -1,0 +1,4 @@
+Troubleshoot: 
+1. ToF Sensor cannot be reassigned a new I2C address successfully:
+
+Make sure the reset pin of the hardware matches the definition of the reset pin of the software. Usually in Arduino, a single number means a Digital pin. For example, 6 means Digital Pin 6. However, there is an exception. For Arduino nano rp2040 connect, Digital pin 6 is also GPIO18. Therefore, in your code, you may try 18 instead of 6. Keep that in mind when you meet errors and try both numbers to check if the problems can be fixed.
