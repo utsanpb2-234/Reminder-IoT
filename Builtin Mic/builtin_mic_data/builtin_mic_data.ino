@@ -16,15 +16,10 @@ short sampleBuffer[512];
 // Number of audio samples read
 volatile int samplesRead;
 
-long idx = 0;
-
-// new line every 5 seconds: 5 * 16000
-long num_samples = 80000;
-
 int level;
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
 
   while (!Serial);
   // Configure the data receive callback
@@ -50,17 +45,7 @@ void loop() {
 
     // Print samples to the serial monitor or plotter
     for (int i = 0; i < samplesRead; i++) {
-      Serial.print(sampleBuffer[i]);
-      idx += 1;
-
-      if (idx < num_samples) {
-        Serial.print(",");
-      }
-      else {
-        Serial.println("");
-        idx = 0;
-      }
-      
+      Serial.println(sampleBuffer[i]);
     }
     // Clear the read count
     samplesRead = 0;
