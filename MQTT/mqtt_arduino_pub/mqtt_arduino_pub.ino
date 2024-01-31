@@ -73,8 +73,8 @@ void setup_wifi() {
     // Connect to WPA/WPA2 network:
     status = WiFi.begin(ssid, password);
 
-    // wait 10 seconds for connection:
-    delay(10000);
+    // wait 1 second for connection:
+    delay(1000);
   }
 
   Serial.println("");
