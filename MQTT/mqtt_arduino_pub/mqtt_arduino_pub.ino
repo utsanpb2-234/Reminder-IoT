@@ -2,9 +2,9 @@
   MQTT publish example for arduino
 *********/
 
+#include <SPI.h>
 #include <WiFiNINA.h>
 #include <PubSubClient.h>
-#include <Wire.h>
 // local info where stores the ssid, password
 #include "localinfo.h"
 
@@ -23,6 +23,7 @@ localinfo.h:
 */
 const char* ssid = SSID;
 const char* password = PASSWD;
+int status = WL_IDLE_STATUS;     // the WiFi radio's status
 
 // MQTT broker info
 const char* mqtt_server = "192.168.0.101";
@@ -36,6 +37,14 @@ WiFiClient rp2040Client;
 PubSubClient client(rp2040Client);
 long lastMsg = 0;
 float data = 1.0;
+
+// have to define by ourselves when using arduino nano rp2040
+char *dtostrf (double val, signed char width, unsigned char prec, char *sout) {
+  char fmt[20];
+  sprintf(fmt, "%%%d.%df", width, prec);
+  sprintf(sout, fmt, val);
+  return sout;
+}
 
 void setup() {
   Serial.begin(115200);
@@ -56,16 +65,16 @@ void setup_wifi() {
     // don't continue
     while (true);
   }
-
-  // print wifi firmware version
-  Serial.println("WiFi firmware ver: " + (String)WiFi.firmwareVersion());
   
-  WiFi.begin(ssid, password);
+  // attempt to connect to WiFi network:
+  while (status != WL_CONNECTED) {
+    Serial.print("Attempting to connect to WPA SSID: ");
+    Serial.println(ssid);
+    // Connect to WPA/WPA2 network:
+    status = WiFi.begin(ssid, password);
 
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    Serial.print(".");
-    WiFi.begin(ssid, password);
+    // wait 10 seconds for connection:
+    delay(10000);
   }
 
   Serial.println("");
