@@ -36,6 +36,7 @@ WiFiClient espClient;
 PubSubClient client(espClient);
 long lastMsg = 0;
 float data = 1.0;
+char dataString[8];
 
 void setup() {
   Serial.begin(115200);
@@ -90,8 +91,7 @@ void loop() {
   if (now - lastMsg > 5000) {
     lastMsg = now;
     data += 1.0;
-    char dataString[8];
-    dtostrf(data, 1, 2, dataString);
+    sprintf(dataString, "%.3f", data);
     Serial.print("Data: ");
     Serial.println(dataString);
     client.publish(pub_topic, dataString);

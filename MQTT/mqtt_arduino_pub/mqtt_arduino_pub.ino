@@ -37,14 +37,7 @@ WiFiClient rp2040Client;
 PubSubClient client(rp2040Client);
 long lastMsg = 0;
 float data = 1.0;
-
-// have to define by ourselves when using arduino nano rp2040
-char *dtostrf (double val, signed char width, unsigned char prec, char *sout) {
-  char fmt[20];
-  sprintf(fmt, "%%%d.%df", width, prec);
-  sprintf(sout, fmt, val);
-  return sout;
-}
+char dataString[8];
 
 void setup() {
   Serial.begin(115200);
@@ -110,8 +103,7 @@ void loop() {
   if (now - lastMsg > 5000) {
     lastMsg = now;
     data += 1.0;
-    char dataString[8];
-    dtostrf(data, 1, 2, dataString);
+    sprintf(dataString, "%.3f", data);
     Serial.print("Data: ");
     Serial.println(dataString);
     client.publish(pub_topic, dataString);
