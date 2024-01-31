@@ -3,7 +3,6 @@
 *********/
 
 #include <WiFiNINA.h>
-#include <SPI.h>
 #include <PubSubClient.h>
 #include <Wire.h>
 // local info where stores the ssid, password
@@ -50,12 +49,23 @@ void setup_wifi() {
   Serial.println();
   Serial.print("Connecting to ");
   Serial.println(ssid);
+
+  // check for the WiFi module:
+  if (WiFi.status() == WL_NO_MODULE) {
+    Serial.println("Communication with WiFi module failed!");
+    // don't continue
+    while (true);
+  }
+
+  // print wifi firmware version
+  Serial.println("WiFi firmware ver: " + (String)WiFi.firmwareVersion());
   
   WiFi.begin(ssid, password);
 
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");
+    WiFi.begin(ssid, password);
   }
 
   Serial.println("");
