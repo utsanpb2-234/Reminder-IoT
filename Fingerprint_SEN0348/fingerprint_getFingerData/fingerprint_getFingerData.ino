@@ -20,7 +20,7 @@ uint8_t data[25600];  //Full image
 
 void setup(){
   /*Init print serial port */
-  Serial.begin(9600);
+  Serial.begin(115200);
   /*Init FPSerial*/
   FPSerial.begin(115200);
   /*Take FPSerial as communication port of fingerprint module */

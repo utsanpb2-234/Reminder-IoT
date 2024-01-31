@@ -11,8 +11,8 @@ sensor 2: D6 (GPIO18)
 #define LOX2_ADDRESS 0x31
 
 // set the pins to shutdown
-#define SHT_LOX1 D7
-#define SHT_LOX2 D6
+#define SHT_LOX1 19
+#define SHT_LOX2 18
 
 // objects for the vl53l0x
 Adafruit_VL53L0X lox1 = Adafruit_VL53L0X();

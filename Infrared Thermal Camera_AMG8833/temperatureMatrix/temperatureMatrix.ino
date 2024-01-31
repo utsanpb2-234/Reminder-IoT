@@ -3,7 +3,7 @@
 Melopero_AMG8833 sensor;
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
 
   // initializing I2C to use default address AMG8833_I2C_ADDRESS_B and Wire (I2C-0):
   Wire.begin();

@@ -17,11 +17,11 @@ sensor 5: D5 (GPIO17)
 #define LOX5_ADDRESS 0x34
 
 // set the pins to shutdown
-#define SHT_LOX1 D9
-#define SHT_LOX2 D8
-#define SHT_LOX3 D7
-#define SHT_LOX4 D6
-#define SHT_LOX5 D5
+#define SHT_LOX1 21
+#define SHT_LOX2 20
+#define SHT_LOX3 19
+#define SHT_LOX4 18
+#define SHT_LOX5 17
 
 // objects for the vl53l0x
 Adafruit_VL53L0X lox1 = Adafruit_VL53L0X();
