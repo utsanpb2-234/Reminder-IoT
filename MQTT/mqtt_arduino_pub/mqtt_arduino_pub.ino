@@ -73,7 +73,8 @@ void setup_wifi() {
   Serial.println("");
   Serial.println("WiFi connected");
   Serial.println("IP address: ");
-  Serial.println(WiFi.localIP());
+
+  // Serial.println(WiFi.localIP()); // comment out for RP2040/Arduino Nano RP2040 Connect
 }
 
 void reconnect() {
