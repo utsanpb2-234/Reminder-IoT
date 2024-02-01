@@ -14,6 +14,7 @@ client_id = "rfid_pi"
 # connect to mqtt broker
 client = mqtt_client.Client(client_id)
 client.connect(broker_ip, broker_port)
+client.loop_start()
 
 reader = SimpleMFRC522()
 
@@ -28,3 +29,5 @@ try:
 
 except KeyboardInterrupt:
     GPIO.cleanup()
+
+client.loop_stop()
