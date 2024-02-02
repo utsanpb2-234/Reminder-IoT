@@ -8,8 +8,8 @@ from paho.mqtt import client as mqtt_client
 # mqtt info
 broker_ip = "192.168.0.101"
 broker_port = 1883
-topic = "test/rfid"
-client_id = "rfid_pi"
+topic = "test/rfid1"
+client_id = "rfid1_pi"
 
 # connect to mqtt broker
 client = mqtt_client.Client(client_id)

@@ -1,4 +1,43 @@
+#define DEBUG true  //set to true for debug output, false for no debug output
+#define DEBUG_SERIAL if(DEBUG)Serial
+
 #include <Adafruit_VL53L0X.h>
+#include <SPI.h>
+#include <WiFiNINA.h>
+#include <PubSubClient.h>
+// local info where stores the ssid, password
+#include "localinfo.h"
+
+/* Wi-Fi info SSID and PASSWD are two defines stored in localinfo.h,
+if you do not have such file, creat one by yourself:
+localinfo.h:
+--------------------------
+#ifndef LOCALINFO_H
+#define LOCALINFO_H
+
+#define SSID "your_ssid"
+#define PASSWD "password"
+
+#endif
+--------------------------
+*/
+const char* ssid = SSID;
+const char* password = PASSWD;
+int status = WL_IDLE_STATUS;     // the WiFi radio's status
+
+// MQTT broker info
+const char* mqtt_server = "192.168.0.101";
+const int mqtt_port = 1883;
+
+// MQTT client info
+const char* client_node = "height1_nano";
+const char* pub_topic = "test/height1";
+
+WiFiClient rp2040Client;
+PubSubClient client(rp2040Client);
+long lastMsg = 0;
+
+char dataString[30]; //4bytes for each ToF, 5 ToF in total, plus some spaces for separators
 
 /*
 reset pins connection - arduino nano rp2040 connect
@@ -71,7 +110,7 @@ void setID() {
 
   // initing LOX1
   if(!lox1.begin(LOX1_ADDRESS)) {
-    Serial.println(F("Failed to boot 1st VL53L0X"));
+    DEBUG_SERIAL.println(F("Failed to boot 1st VL53L0X"));
     while(1);
   }
   delay(10);
@@ -82,7 +121,7 @@ void setID() {
 
   //initing LOX2
   if(!lox2.begin(LOX2_ADDRESS)) {
-    Serial.println(F("Failed to boot 2nd VL53L0X"));
+    DEBUG_SERIAL.println(F("Failed to boot 2nd VL53L0X"));
     while(1);
   }
 
@@ -92,7 +131,7 @@ void setID() {
 
   //initing LOX3
   if(!lox3.begin(LOX3_ADDRESS)) {
-    Serial.println(F("Failed to boot 3rd VL53L0X"));
+    DEBUG_SERIAL.println(F("Failed to boot 3rd VL53L0X"));
     while(1);
   }
 
@@ -102,7 +141,7 @@ void setID() {
 
   //initing LOX4
   if(!lox4.begin(LOX4_ADDRESS)) {
-    Serial.println(F("Failed to boot 4th VL53L0X"));
+    DEBUG_SERIAL.println(F("Failed to boot 4th VL53L0X"));
     while(1);
   }
 
@@ -112,7 +151,7 @@ void setID() {
 
   //initing LOX5
   if(!lox5.begin(LOX5_ADDRESS)) {
-    Serial.println(F("Failed to boot 5th VL53L0X"));
+    DEBUG_SERIAL.println(F("Failed to boot 5th VL53L0X"));
     while(1);
   }
 }
@@ -124,76 +163,65 @@ void read_dual_sensors() {
   lox3.rangingTest(&measure3, false); // pass in 'true' to get debug data printout!
   lox4.rangingTest(&measure4, false); // pass in 'true' to get debug data printout!
   lox5.rangingTest(&measure5, false); // pass in 'true' to get debug data printout!
+  
+  sprintf(dataString, "%d,%d,%d,%d,%d", measure1.RangeMilliMeter, measure2.RangeMilliMeter, measure3.RangeMilliMeter, measure4.RangeMilliMeter, measure5.RangeMilliMeter);
+  DEBUG_SERIAL.println(dataString);
 
-  // print readings
-  if(measure1.RangeStatus != 4) {     // if not out of range
-    if (measure1.RangeMilliMeter > 50){
-      Serial.print("|");
-    }
-    else {
-      Serial.print("T");
-    }
-  }
-  else {
-    Serial.print("|");
-  }
+  client.publish(pub_topic, dataString);
+  
+}
 
-  if(measure2.RangeStatus != 4) {     // if not out of range
-    if (measure2.RangeMilliMeter > 50){
-      Serial.print("|");
-    }
-    else {
-      Serial.print("T");
-    }
-  }
-  else {
-    Serial.print("|");
-  }
+void setup_wifi() {
+  delay(10);
+  // We start by connecting to a WiFi network
+  DEBUG_SERIAL.println();
+  DEBUG_SERIAL.print("Connecting to ");
+  DEBUG_SERIAL.println(ssid);
 
-  if(measure3.RangeStatus != 4) {     // if not out of range
-    if (measure3.RangeMilliMeter > 50){
-      Serial.print("|");
-    }
-    else {
-      Serial.print("T");
-    }
-  }
-  else {
-    Serial.print("|");
-  }
-
-  if(measure4.RangeStatus != 4) {     // if not out of range
-    if (measure4.RangeMilliMeter > 50){
-      Serial.print("|");
-    }
-    else {
-      Serial.print("T");
-    }
-  }
-  else {
-    Serial.print("|");
-  }
-
-  if(measure5.RangeStatus != 4) {     // if not out of range
-    if (measure5.RangeMilliMeter > 50){
-      Serial.print("|");
-    }
-    else {
-      Serial.print("T");
-    }
-  }
-  else {
-    Serial.print("|");
+  // check for the WiFi module:
+  if (WiFi.status() == WL_NO_MODULE) {
+    DEBUG_SERIAL.println("Communication with WiFi module failed!");
+    // don't continue
+    while (true);
   }
   
-  Serial.println();
+  // attempt to connect to WiFi network:
+  while (status != WL_CONNECTED) {
+    DEBUG_SERIAL.print("Attempting to connect to WPA SSID: ");
+    DEBUG_SERIAL.println(ssid);
+    // Connect to WPA/WPA2 network:
+    DEBUG_SERIAL = WiFi.begin(ssid, password);
+
+    // wait 1 second for connection:
+    delay(1000);
+  }
+
+  DEBUG_SERIAL.println("");
+  DEBUG_SERIAL.println("WiFi connected");
+  DEBUG_SERIAL.println("IP address: ");
+
+  // DEBUG_SERIAL.println(WiFi.localIP()); // comment out for RP2040/Arduino Nano RP2040 Connect
+}
+
+void reconnect() {
+  // Loop until we're reconnected
+  while (!client.connected()) {
+    DEBUG_SERIAL.print("Attempting MQTT connection...");
+    // Attempt to connect
+    if (client.connect(client_node)) {
+      DEBUG_SERIAL.println("connected");
+    } else {
+      DEBUG_SERIAL.print("failed, rc=");
+      DEBUG_SERIAL.print(client.state());
+      DEBUG_SERIAL.println(" try again in 5 seconds");
+      // Wait 5 seconds before retrying
+      delay(5000);
+    }
+  }
 }
 
 void setup() {
-  Serial.begin(115200);
-
-  // wait until serial port opens for native USB devices
-  while (! Serial) { delay(1); }
+  DEBUG_SERIAL.begin(115200);
 
   pinMode(SHT_LOX1, OUTPUT);
   pinMode(SHT_LOX2, OUTPUT);
@@ -201,7 +229,7 @@ void setup() {
   pinMode(SHT_LOX4, OUTPUT);
   pinMode(SHT_LOX5, OUTPUT);
 
-  Serial.println(F("Shutdown pins inited..."));
+  DEBUG_SERIAL.println(F("Shutdown pins inited..."));
 
   digitalWrite(SHT_LOX1, LOW);
   digitalWrite(SHT_LOX2, LOW);
@@ -209,14 +237,23 @@ void setup() {
   digitalWrite(SHT_LOX4, LOW);
   digitalWrite(SHT_LOX5, LOW);
 
-  Serial.println(F("Sensors are in reset mode...(pins are low)"));
+  DEBUG_SERIAL.println(F("Sensors are in reset mode...(pins are low)"));
   
-  Serial.println(F("Starting..."));
+  DEBUG_SERIAL.println(F("Starting..."));
   setID();
+
+  setup_wifi();
+  client.setServer(mqtt_server, mqtt_port);
 }
 
 void loop() {
-   
-  read_dual_sensors();
-  delay(100);
+  if (!client.connected()) {
+    reconnect();
+  }
+  client.loop();
+  long now = millis();
+  if (now - lastMsg > 500) {
+    lastMsg = now;
+    read_dual_sensors();
+  }
 }
