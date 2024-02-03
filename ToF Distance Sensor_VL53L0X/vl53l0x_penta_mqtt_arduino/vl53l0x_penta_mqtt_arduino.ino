@@ -1,4 +1,4 @@
-#define DEBUG true  //set to true for debug output, false for no debug output
+#define DEBUG false  //set to true for debug output, false for no debug output
 #define DEBUG_SERIAL if(DEBUG)Serial
 
 #include <Adafruit_VL53L0X.h>
@@ -190,7 +190,7 @@ void setup_wifi() {
     DEBUG_SERIAL.print("Attempting to connect to WPA SSID: ");
     DEBUG_SERIAL.println(ssid);
     // Connect to WPA/WPA2 network:
-    DEBUG_SERIAL = WiFi.begin(ssid, password);
+    status = WiFi.begin(ssid, password);
 
     // wait 1 second for connection:
     delay(1000);

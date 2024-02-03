@@ -43,6 +43,7 @@ PubSubClient client(espClient);
 DFRobot_ID809 fingerprint;
 
 uint8_t data[25600];  //Full image
+char dataString[8];
 
 void setup_wifi() {
   delay(10);
@@ -123,9 +124,9 @@ void loop(){
     fingerprint.ctrlLED(/*LEDMode = */fingerprint.eFastBlink, /*LEDColor = */fingerprint.eLEDGreen, /*blinkCount = */3);
     //Collect full images
     fingerprint.getFingerImage(data);
-    
-    client.publish(pub_topic, data);
-    DEBUG_SERIAL.println(data);
+    for(uint16_t i = 0; i < 25599 ;i++){
+      DEBUG_SERIAL.println(data[i]);
+    }
     delay(1000);
   }
 }
