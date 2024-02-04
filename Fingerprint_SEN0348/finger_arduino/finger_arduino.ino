@@ -46,16 +46,17 @@ void loop(){
   /*Wait for finger to release
     Return 1 when finger is detected, otherwise return 0 
    */
-  while(!fingerprint.detectFinger());
-  fingerprint.ctrlLED(/*LEDMode = */fingerprint.eFastBlink, /*LEDColor = */fingerprint.eLEDGreen, /*blinkCount = */3);
-  //Collect full images
-  fingerprint.getFingerImage(data);
+  if (fingerprint.detectFinger()) {
+    fingerprint.ctrlLED(/*LEDMode = */fingerprint.eFastBlink, /*LEDColor = */fingerprint.eLEDGreen, /*blinkCount = */3);
+    //Collect full images
+    fingerprint.getFingerImage(data);
 
-  //Display the image on the screen
-  for(uint16_t i = 0; i < 25599 ;i++){
-     Serial.print(data[i]);
-     Serial.print(",");
-   }
-  Serial.println(data[25599]);
-  delay(1000);
+    //Display the image on the screen
+    for(uint16_t i = 0; i < 25599 ;i++){
+      Serial.print(data[i]);
+      Serial.print(",");
+    }
+    Serial.println(data[25599]);
+  }
+  delay(500);
 }

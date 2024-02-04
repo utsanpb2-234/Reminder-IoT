@@ -87,7 +87,10 @@ void setup() {
     while(1);
   }
   // power 
-  DEBUG_SERIAL.println(F("VL53L0X API Simple Ranging example\n\n")); 
+  DEBUG_SERIAL.println(F("VL53L0X API Simple Ranging example\n\n"));
+
+  setup_wifi();
+  client.setServer(mqtt_server, mqtt_port);
 }
 
 

@@ -1,4 +1,4 @@
-<mxfile host="Electron" modified="2024-02-03T00:00:29.749Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/23.0.2 Chrome/120.0.6099.109 Electron/28.1.0 Safari/537.36" etag="Ii0m8fwL02p2SNCtId6R" version="23.0.2" type="device">
+<mxfile host="Electron" modified="2024-02-04T23:56:27.637Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/23.0.2 Chrome/120.0.6099.109 Electron/28.1.0 Safari/537.36" etag="DLZ70eqThgUKri4eUltV" version="23.0.2" type="device">
   <diagram id="KD6A33hOnKHh0tPZ0QpS" name="Page-1">
     <mxGraphModel dx="1194" dy="824" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -13,7 +13,7 @@
         <mxCell id="6i2Ng4-ThXqG3mX0xS2--30" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=16;" parent="1" source="cqa180hqLIQ2aw_EELrV-2" target="6i2Ng4-ThXqG3mX0xS2--25" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="cqa180hqLIQ2aw_EELrV-2" value="XIAO ESP32C3" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;" parent="1" vertex="1">
+        <mxCell id="cqa180hqLIQ2aw_EELrV-2" value="Arduino Nano" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;" parent="1" vertex="1">
           <mxGeometry x="400" y="160" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="cqa180hqLIQ2aw_EELrV-6" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=16;" parent="1" source="cqa180hqLIQ2aw_EELrV-4" target="cqa180hqLIQ2aw_EELrV-5" edge="1">
@@ -25,7 +25,7 @@
         <mxCell id="6i2Ng4-ThXqG3mX0xS2--31" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=16;" parent="1" source="cqa180hqLIQ2aw_EELrV-5" target="6i2Ng4-ThXqG3mX0xS2--26" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="cqa180hqLIQ2aw_EELrV-5" value="Arduino Nano" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;" parent="1" vertex="1">
+        <mxCell id="cqa180hqLIQ2aw_EELrV-5" value="XIAO ESP32C3" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;" parent="1" vertex="1">
           <mxGeometry x="400" y="240" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="cqa180hqLIQ2aw_EELrV-9" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=16;" parent="1" source="cqa180hqLIQ2aw_EELrV-7" target="cqa180hqLIQ2aw_EELrV-8" edge="1">
@@ -157,10 +157,10 @@
         <mxCell id="6i2Ng4-ThXqG3mX0xS2--18" value="tof1_esp32" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;dashed=1;" parent="1" vertex="1">
           <mxGeometry x="600" y="560" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="6i2Ng4-ThXqG3mX0xS2--25" value="finger1_esp32" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;dashed=1;" parent="1" vertex="1">
+        <mxCell id="6i2Ng4-ThXqG3mX0xS2--25" value="finger1_nano" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;dashed=1;" parent="1" vertex="1">
           <mxGeometry x="600" y="160" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="6i2Ng4-ThXqG3mX0xS2--26" value="height1_nano" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;dashed=1;" parent="1" vertex="1">
+        <mxCell id="6i2Ng4-ThXqG3mX0xS2--26" value="height1_esp32" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;dashed=1;" parent="1" vertex="1">
           <mxGeometry x="600" y="240" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="6i2Ng4-ThXqG3mX0xS2--27" value="mic1_nano" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;dashed=1;" parent="1" vertex="1">
