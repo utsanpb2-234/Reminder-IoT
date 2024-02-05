@@ -1,14 +1,13 @@
 #include <WiFiNINA.h>
+#include <SPI.h>
 #include <PDM.h>
 
-
-bool LED_SWITCH = false;
 
 // default number of output channels
 static const char channels = 1;
 
 // default PCM output frequency
-static const int frequency = 16000;
+static const int frequency = 8000;
 
 // Buffer to read samples into, each sample is 16-bits
 short sampleBuffer[512];
@@ -16,18 +15,17 @@ short sampleBuffer[512];
 // Number of audio samples read
 volatile int samplesRead;
 
-int level;
-
 void setup() {
   Serial.begin(115200);
 
-  while (!Serial);
   // Configure the data receive callback
   PDM.onReceive(onPDMdata);
 
   // Optionally set the gain
   // Defaults to 20 on the BLE Sense and -10 on the Portenta Vision Shields
-  // PDM.setGain(30);
+  PDM.setGain(30);
+  
+  PDM.setBufferSize(512);
 
   // Initialize PDM with:
   // - one channel (mono mode)

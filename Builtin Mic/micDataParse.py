@@ -6,7 +6,7 @@ import soundfile as sf
 
 ser = serial.Serial("/dev/tty.usbmodem21401", 115200, timeout=4)
 sound_file = "test.wav"
-sample_rate_hz = 16000
+sample_rate_hz = 8000
 
 micData = []
 
@@ -23,7 +23,7 @@ try:
                 pass
 except KeyboardInterrupt:
     ser.close()
-    print("serial closed")
+    print("\nserial closed")
     micData = np.asarray(micData,dtype=np.int16)
     sf.write(sound_file, micData, sample_rate_hz)
     print("sound file saved")

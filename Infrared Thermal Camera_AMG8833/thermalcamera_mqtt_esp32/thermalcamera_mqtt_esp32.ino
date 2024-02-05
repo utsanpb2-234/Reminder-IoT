@@ -1,5 +1,5 @@
 #define DEBUG true  //set to true for debug output, false for no debug output
-#define DEBUG_SERIAL if(DEBUG)DEBUG_SERIAL
+#define DEBUG_SERIAL if(DEBUG)Serial
 
 #include <Melopero_AMG8833.h>
 #include <WiFi.h>
