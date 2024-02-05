@@ -1,4 +1,4 @@
-#define DEBUG true  //set to true for debug output, false for no debug output
+#define DEBUG false  //set to true for debug output, false for no debug output
 #define DEBUG_SERIAL if(DEBUG)Serial
 
 #include <Melopero_AMG8833.h>
@@ -35,7 +35,9 @@ const char* pub_topic = "test/thermal1";
 WiFiClient espClient;
 PubSubClient client(espClient);
 long lastMsg = 0;
-char dataString[300]; //64 data, each data cost at most 3 bytes(0-255), with one additional separtor.
+
+#define buffersize 512 //64 data, each data cost at most 5 bytes(0-255), with one additional separtor.
+char dataString[buffersize];
 
 Melopero_AMG8833 sensor;
 
@@ -92,6 +94,7 @@ void setup() {
   DEBUG_SERIAL.println(sensor.getErrorDescription(statusCode));
 
   setup_wifi();
+  client.setBufferSize(buffersize); //increase the buffer size to make sure the 300byte-long dataString can be sent
   client.setServer(mqtt_server, mqtt_port);
 }
 
@@ -111,11 +114,11 @@ void loop() {
       for (int y = 0; y < 8; y++){
         data += String(sensor.pixelMatrix[y][x]);
         if (y!=7 || x!=7){
-          data += ","
+          data += ",";
         }
-        data.toCharArray(dataString, 300);
       }
     }
+    data.toCharArray(dataString, buffersize);
     DEBUG_SERIAL.println(dataString);
     client.publish(pub_topic, dataString);
   }

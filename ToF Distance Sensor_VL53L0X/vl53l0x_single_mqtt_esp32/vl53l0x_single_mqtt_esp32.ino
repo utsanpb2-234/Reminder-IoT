@@ -1,4 +1,4 @@
-#define DEBUG true  //set to true for debug output, false for no debug output
+#define DEBUG false  //set to true for debug output, false for no debug output
 #define DEBUG_SERIAL if(DEBUG)Serial
 
 #include "Adafruit_VL53L0X.h"
@@ -104,7 +104,7 @@ void loop() {
   if (now - lastMsg > 500) {
     lastMsg = now;
     lox.rangingTest(&measure, false); // pass in 'true' to get debug data printout!
-    sprintf(dataString, "%d", measure);
+    sprintf(dataString, "%d", measure.RangeMilliMeter);
     DEBUG_SERIAL.println(dataString);
 
     client.publish(pub_topic, dataString);

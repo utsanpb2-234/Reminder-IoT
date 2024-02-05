@@ -4,11 +4,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 
-ser = serial.Serial("/dev/tty.usbmodem21401", 9600, timeout=4)
+width = 80
+height = 80
+ser = serial.Serial("/dev/tty.usbmodem11201", 115200, timeout=4)
 
 fig, ax = plt.subplots(nrows=1, figsize=(5,5), sharex=True)
 
-fingerdata = np.zeros((160,160))
+fingerdata = np.zeros((width,height))
 
 def animate(i,):
     if ser.in_waiting:
@@ -17,7 +19,7 @@ def animate(i,):
         data = data.split(",")
         data = [int(i) for i in data]
         global fingerdata
-        fingerdata = np.reshape(data, (160, 160))
+        fingerdata = np.reshape(data, (width, height))
         print(fingerdata)
     
     ax.imshow(fingerdata)

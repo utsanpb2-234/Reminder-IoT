@@ -15,7 +15,7 @@
 
 DFRobot_ID809 fingerprint;
 
-uint8_t data[25600];  //Full image
+uint8_t data[6400];  //Full image
 
 
 void setup(){
@@ -49,14 +49,14 @@ void loop(){
   if (fingerprint.detectFinger()) {
     fingerprint.ctrlLED(/*LEDMode = */fingerprint.eFastBlink, /*LEDColor = */fingerprint.eLEDGreen, /*blinkCount = */3);
     //Collect full images
-    fingerprint.getFingerImage(data);
+    fingerprint.getQuarterFingerImage(data);
 
     //Display the image on the screen
-    for(uint16_t i = 0; i < 25599 ;i++){
+    for(uint16_t i = 0; i < 6399 ;i++){
       Serial.print(data[i]);
       Serial.print(",");
     }
-    Serial.println(data[25599]);
+    Serial.println(data[6399]);
   }
   delay(500);
 }

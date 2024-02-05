@@ -40,7 +40,8 @@ PubSubClient client(rp2040Client);
 
 DFRobot_ID809 fingerprint;
 
-uint8_t dataString[25600];  //Full image
+uint8_t data[6400];  //Full image
+char dataString[100];
 
 void setup_wifi() {
   delay(10);
@@ -112,10 +113,17 @@ void setup(){
   }
 
   setup_wifi();
+  DEBUG_SERIAL.println("wifi set is done");
   client.setServer(mqtt_server, mqtt_port);
+  DEBUG_SERIAL.println("mqtt set is done");
 }
 
 void loop(){
+  if (!client.connected()) {
+    reconnect();
+  }
+  client.loop();
+
   /*Set the fingerprint module LED ring to blue breathing lighting effect*/
   fingerprint.ctrlLED(/*LEDMode = */fingerprint.eBreathing, /*LEDColor = */fingerprint.eLEDBlue, /*blinkCount = */0);
   // Serial.println("Please release your finger");
@@ -125,15 +133,20 @@ void loop(){
   if (fingerprint.detectFinger()) {
     fingerprint.ctrlLED(/*LEDMode = */fingerprint.eFastBlink, /*LEDColor = */fingerprint.eLEDGreen, /*blinkCount = */3);
     //Collect full images
-    fingerprint.getFingerImage(dataString);
-    
-    client.publish(pub_topic, "start");
+    // fingerprint.getFingerImage(data);
+    fingerprint.getQuarterFingerImage(data);
 
     //Display the image on the screen
-    for(uint16_t i = 0; i < 25599 ;i++){
-      client.publish(pub_topic, (char*)dataString);
+    for(uint16_t i = 0; i < 6400 ;){
+      sprintf(dataString,"%d,%d,%d,%d,%d,%d,%d,%d",data[i],data[i+1],data[i+2],data[i+3],data[i+4],data[i+5],data[i+6],data[i+7]);
+      client.publish(pub_topic, dataString);
+      if (!client.connected()) {
+        reconnect();
+      }
+      client.loop();
+      i += 8;
     }
-    
+    DEBUG_SERIAL.println("sent.");
     client.publish(pub_topic, "end");
   }
   delay(500);
