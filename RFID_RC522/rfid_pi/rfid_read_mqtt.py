@@ -11,7 +11,6 @@ broker_port = 1883
 topic = "test/rfid1"
 client_id = "rfid1_pi"
 
-# connect to mqtt broker
 client = mqtt_client.Client(client_id)
 client.connect(broker_ip, broker_port)
 client.loop_start()

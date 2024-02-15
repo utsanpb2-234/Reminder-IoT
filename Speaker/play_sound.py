@@ -4,7 +4,7 @@ import time
 
 pygame.init()
 
-sample_file = "wav_file.wav"
+sample_file = "audio_file.wav"
 my_sound = pygame.mixer.Sound(sample_file)
 
 my_sound.play()

@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 
 width = 80
 height = 80
-ser = serial.Serial("/dev/tty.usbmodem11101", 115200, timeout=4)
+ser = serial.Serial("/dev/ttyACM0", 115200, timeout=4)
 
 # mqtt info
 broker_ip = "192.168.0.101"
