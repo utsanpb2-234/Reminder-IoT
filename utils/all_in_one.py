@@ -8,7 +8,7 @@ from record_config import *
 if __name__ == "__main__":
 
     for sensor_port in sensors_info.keys():
-        sensor = dataRecord("/dev/cu.usbmodem11101", "tof1.csv", Sensor.tof_single)
+        sensor = dataRecord(sensor_port, sensors_info[sensor_port][0], sensors_info[sensor_port][1])
         sensor_thread = Thread(target=sensor.run, daemon=True)
         sensor_thread.start()
 
