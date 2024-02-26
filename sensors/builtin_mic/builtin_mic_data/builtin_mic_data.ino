@@ -1,7 +1,5 @@
 #include <WiFiNINA.h>
-#include <SPI.h>
 #include <PDM.h>
-
 
 // default number of output channels
 static const char channels = 1;

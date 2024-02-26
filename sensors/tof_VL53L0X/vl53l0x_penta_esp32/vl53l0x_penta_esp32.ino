@@ -1,4 +1,9 @@
 #include <Adafruit_VL53L0X.h>
+#define PERIOD 200 //5Hz
+
+unsigned long lastTime = 0;
+char msgStr[50];
+uint16_t data[5];
 
 /*
 reset pins connection - xiao esp32c3
@@ -29,13 +34,6 @@ Adafruit_VL53L0X lox2 = Adafruit_VL53L0X();
 Adafruit_VL53L0X lox3 = Adafruit_VL53L0X();
 Adafruit_VL53L0X lox4 = Adafruit_VL53L0X();
 Adafruit_VL53L0X lox5 = Adafruit_VL53L0X();
-
-// this holds the measurement
-VL53L0X_RangingMeasurementData_t measure1;
-VL53L0X_RangingMeasurementData_t measure2;
-VL53L0X_RangingMeasurementData_t measure3;
-VL53L0X_RangingMeasurementData_t measure4;
-VL53L0X_RangingMeasurementData_t measure5;
 
 /*
     Reset all sensors by setting all of their XSHUT pins low for delay(10), then set all XSHUT high to bring out of reset
@@ -115,78 +113,22 @@ void setID() {
     Serial.println(F("Failed to boot 5th VL53L0X"));
     while(1);
   }
+  lox1.startRangeContinuous();
+  lox2.startRangeContinuous();
+  lox3.startRangeContinuous();
+  lox4.startRangeContinuous();
+  lox5.startRangeContinuous();
 }
 
-void read_dual_sensors() {
-  
-  lox1.rangingTest(&measure1, false); // pass in 'true' to get debug data printout!
-  lox2.rangingTest(&measure2, false); // pass in 'true' to get debug data printout!
-  lox3.rangingTest(&measure3, false); // pass in 'true' to get debug data printout!
-  lox4.rangingTest(&measure4, false); // pass in 'true' to get debug data printout!
-  lox5.rangingTest(&measure5, false); // pass in 'true' to get debug data printout!
+void read_penta_sensors() {
+  data[0] = lox1.readRange();
+  data[1] = lox2.readRange();
+  data[2] = lox3.readRange();
+  data[3] = lox4.readRange();
+  data[4] = lox5.readRange();
 
-  // print readings
-  if(measure1.RangeStatus != 4) {     // if not out of range
-    if (measure1.RangeMilliMeter > 50){
-      Serial.print("|");
-    }
-    else {
-      Serial.print("T");
-    }
-  }
-  else {
-    Serial.print("|");
-  }
-
-  if(measure2.RangeStatus != 4) {     // if not out of range
-    if (measure2.RangeMilliMeter > 50){
-      Serial.print("|");
-    }
-    else {
-      Serial.print("T");
-    }
-  }
-  else {
-    Serial.print("|");
-  }
-
-  if(measure3.RangeStatus != 4) {     // if not out of range
-    if (measure3.RangeMilliMeter > 50){
-      Serial.print("|");
-    }
-    else {
-      Serial.print("T");
-    }
-  }
-  else {
-    Serial.print("|");
-  }
-
-  if(measure4.RangeStatus != 4) {     // if not out of range
-    if (measure4.RangeMilliMeter > 50){
-      Serial.print("|");
-    }
-    else {
-      Serial.print("T");
-    }
-  }
-  else {
-    Serial.print("|");
-  }
-
-  if(measure5.RangeStatus != 4) {     // if not out of range
-    if (measure5.RangeMilliMeter > 50){
-      Serial.print("|");
-    }
-    else {
-      Serial.print("T");
-    }
-  }
-  else {
-    Serial.print("|");
-  }
-  
-  Serial.println();
+  sprintf(msgStr, "%d,%d,%d,%d,%d", data[0],data[1],data[2],data[3],data[4]);
+  Serial.println(msgStr);
 }
 
 void setup() {
@@ -216,7 +158,10 @@ void setup() {
 }
 
 void loop() {
-   
-  read_dual_sensors();
-  delay(100);
+  unsigned long nowTime = millis();
+
+  if (nowTime - lastTime > PERIOD) {
+    lastTime = nowTime;
+    read_penta_sensors();
+  }
 }

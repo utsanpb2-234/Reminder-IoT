@@ -55,4 +55,3 @@ except KeyboardInterrupt:
     print("\nserial closed.")
     client.loop_stop()
     print("mqtt client closed.")
-    

@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from scipy import interpolate
 
-ser = serial.Serial("/dev/tty.usbmodem21401", 9600, timeout=4)
+ser = serial.Serial("/dev/tty.usbmodem11101", 9600, timeout=4)
 
 fig, ax = plt.subplots(nrows=1, figsize=(5,5), sharex=True)
 
@@ -33,5 +33,5 @@ def animate(i,):
     ax.pcolormesh(xgrid, ygrid, temperaturedata, vmin=18, vmax=35)
     ax.set_frame_on(False)
 
-ani = animation.FuncAnimation(fig, animate, interval=10)
+ani = animation.FuncAnimation(fig, animate, interval=100)
 plt.show()

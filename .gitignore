@@ -3,3 +3,5 @@
 localinfo.h
 
 *.bkp
+*.csv
+data
