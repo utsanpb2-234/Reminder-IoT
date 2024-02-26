@@ -5,3 +5,5 @@ localinfo.h
 *.bkp
 *.csv
 data
+
+__pycache__
