@@ -7,7 +7,7 @@ class caseRecord():
         self.file = filename
 
         # header
-        writeFile(self.file, "case,start,end\n", option="w")
+        # writeFile(self.file, "case,start,end\n", option="w")
 
     def run(self):
         while True:
@@ -18,17 +18,21 @@ class caseRecord():
             elif cmd == "q":
                 break
             else:
-                time_start = time.time()
+                case_info = f"{cmd},s{time.time()}"
+                subject_name = cmd
                 while True:
-                    stop_sign = input("enter s to stop current case: ")
-                    if (not stop_sign) or (stop_sign != "s"):
-                        print("invalid input")
+                    sign = input(f"enter event for {subject_name} or e to end: ")
+                    if not sign:
+                        print("no input")
                         continue
-                    else:
+                    elif sign == "e":
+                        case_info += f",e{time.time()}"
                         break
-                time_stop = time.time()
-                case_info = f"{cmd},{time_start},{time_stop}\n"
-                writeFile(self.file, case_info, "a")
+                    else:
+                        # other events
+                        case_info += f",{sign}{time.time()}"
+                        
+                writeFile(self.file, f"{case_info}\n", "a")
         print("case recording stopped.")
 
 
