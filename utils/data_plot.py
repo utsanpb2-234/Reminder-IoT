@@ -48,7 +48,7 @@ def fingerDataPlot(data, key, size=[80,80]):
 
 
 if __name__ == "__main__":
-    folder = "../data/20240304_2"
+    folder = "../data/20240330_0"
     
     case1_file = os.path.join(folder, "case1.csv")
     finger1_file = os.path.join(folder, "finger1.csv")
@@ -57,7 +57,7 @@ if __name__ == "__main__":
     tof1_file = os.path.join(folder, "tof1.csv")
     tof2_file = os.path.join(folder, "tof2.csv")
 
-    case1_pd = pd.read_csv(case1_file)
+    case1_pd = pd.read_csv(case1_file, header=None)
     finger1_pd = pd.read_csv(finger1_file)
     height1_pd = pd.read_csv(height1_file)
     thermal1_pd = pd.read_csv(thermal1_file)
@@ -68,14 +68,17 @@ if __name__ == "__main__":
 
     for i in range(n):
         
-        sub_folder = os.path.join(folder, case1_pd.iloc[i]["case"])
+        sub_folder = os.path.join(folder, case1_pd.iloc[i, 0])
         
         if not os.path.exists(sub_folder):
             print(f"create folder {sub_folder}")
             os.mkdir(sub_folder)
-        
-        time_start = np.floor(case1_pd.iloc[i]["start"])
-        time_end = np.ceil(case1_pd.iloc[i]["end"])
+        time_start_str = case1_pd.iloc[i, 1]
+        time_end_str = case1_pd.iloc[i, 5]
+
+        time_start = np.floor(float(time_start_str[1:]))
+        time_end = np.ceil(float(time_end_str[1:]))
+
         new_finger1 = dataSlice(finger1_pd, time_start, time_end)
         new_height1 = dataSlice(height1_pd, time_start, time_end)
         new_thermal1 = dataSlice(thermal1_pd, time_start, time_end)

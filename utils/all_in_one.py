@@ -22,7 +22,9 @@ if __name__ == "__main__":
         sensor = dataRecord(sensor_port, f"{folder}/{sensors_info[sensor_port][0]}", sensors_info[sensor_port][1])
         sensor_thread = Process(target=sensor.run, daemon=True)
         sensor_thread.start()
-
+    
+    time.sleep(1)
+    
     case1 = caseRecord(f"{folder}/case1.csv")
     case1.run()
 
