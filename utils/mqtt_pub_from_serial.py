@@ -51,50 +51,38 @@ sensorDataTransform = {
 }
 
 
-class dataMQTT():
-    def __init__(self, port=None, topic=None, client_id=None, sensorType=None) -> None:
-        self.port = port
-        self.sensorType = sensorType
+def dataMQTT(port=None, topic=None, client_id=None, sensorType=None):
+    ser = serial.Serial(port, 115200, timeout=4)
 
-        # open serial port
-        self.ser = serial.Serial(self.port, 115200, timeout=4)
+    client = mqtt_client.Client(client_id)
+    client.connect(broker_ip, broker_port)
+    client.loop_start()
 
-        
-        self.topic = topic
-        self.client_id = client_id
+    print(f"start publishing...{topic}")
+    try:
+        while True:
+            if ser.in_waiting:
+                data = ser.readline()
+                try:
+                    data = data.decode("utf-8")[:-2]
 
-        # connect to mqtt broker
-        self.client = mqtt_client.Client(self.client_id)
-        self.client.connect(broker_ip, broker_port)
-        self.client.loop_start()
+                    # transform data based on sensor type
+                    data = sensorDataTransform[sensorType](data)
 
-    def run(self):
-        print(f"start publishing...{self.topic}")
-        try:
-            while True:
-                if self.ser.in_waiting:
-                    data = self.ser.readline()
-                    try:
-                        data = data.decode("utf-8")[:-2]
-
-                        # transform data based on sensor type
-                        data_transformed = sensorDataTransform[self.sensorType](data)
-                        
-                        self.client.publish(self.topic, data_transformed)
-                    except:
-                        print(f"{self.topic}: pass one error reading.")
-                        pass
-        except KeyboardInterrupt:
-            self.ser.close()
-            print(f"stopped publish...{self.topic}")
-            self.client.loop_stop()
+                    client.publish(topic, data)
+                except:
+                    print(f"{topic}: pass one error reading.")
+                    pass
+    except KeyboardInterrupt:
+        ser.close()
+        print(f"stopped publish...{topic}")
+        client.loop_stop()
 
 
 if __name__ == "__main__":
     
     for sensor_port in sensors_info_mqtt.keys():
-        sensor = dataMQTT(sensor_port, sensors_info_mqtt[sensor_port][0], sensors_info_mqtt[sensor_port][1], sensors_info_mqtt[sensor_port][2])
-        sensor_thread = Process(target=sensor.run, daemon=True)
+        sensor_thread = Process(target=dataMQTT, daemon=True, args=(sensor_port, sensors_info_mqtt[sensor_port][0], sensors_info_mqtt[sensor_port][1], sensors_info_mqtt[sensor_port][2],))
         sensor_thread.start()
     
     time.sleep(1)
