@@ -18,7 +18,7 @@ class caseRecord():
             elif cmd == "q":
                 break
             else:
-                case_info = f"{cmd},s{time.time()}"
+                case_info = f"{cmd}"
                 subject_name = cmd
                 while True:
                     sign = input(f"enter event for {subject_name} or e to end: ")

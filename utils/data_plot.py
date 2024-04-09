@@ -48,7 +48,7 @@ def fingerDataPlot(data, key, size=[80,80]):
 
 
 if __name__ == "__main__":
-    folder = "../data/20240330_0"
+    folder = "../data/20240407_5"
     
     case1_file = os.path.join(folder, "case1.csv")
     finger1_file = os.path.join(folder, "finger1.csv")
@@ -74,7 +74,7 @@ if __name__ == "__main__":
             print(f"create folder {sub_folder}")
             os.mkdir(sub_folder)
         time_start_str = case1_pd.iloc[i, 1]
-        time_end_str = case1_pd.iloc[i, 5]
+        time_end_str = case1_pd.iloc[i, 4]
 
         time_start = np.floor(float(time_start_str[1:]))
         time_end = np.ceil(float(time_end_str[1:]))
