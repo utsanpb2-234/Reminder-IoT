@@ -4,21 +4,17 @@ import time
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
-
-
-def dataSlice(data, start, end):
-    new_data = data[(data["time"] >= start) & (data["time"] <= end)]
-    return new_data
+from data_process import dataSlice
 
 
 def singleDataPlot(data, key, yrange):
     x = [i for i in range(len(data))]
     data_processed = []
     for j in data:
-        if j > 2000:
-            data_processed.append(0)
+        if j > yrange[1]:
+            data_processed.append(yrange[1])
         else:
-            data_processed.append(2000-j)
+            data_processed.append(j)
     plt.plot(x, data_processed)
     plt.title(key)
     plt.ylim(yrange[0], yrange[1])
@@ -48,7 +44,7 @@ def fingerDataPlot(data, key, size=[80,80]):
 
 
 if __name__ == "__main__":
-    folder = "../data/20240407_5"
+    folder = "../data/20240415_1"
     
     case1_file = os.path.join(folder, "case1.csv")
     finger1_file = os.path.join(folder, "finger1.csv")
@@ -73,8 +69,9 @@ if __name__ == "__main__":
         if not os.path.exists(sub_folder):
             print(f"create folder {sub_folder}")
             os.mkdir(sub_folder)
+        print(f"Processing {sub_folder}...", end="\t")
         time_start_str = case1_pd.iloc[i, 1]
-        time_end_str = case1_pd.iloc[i, 4]
+        time_end_str = case1_pd.iloc[i, -1]
 
         time_start = np.floor(float(time_start_str[1:]))
         time_end = np.ceil(float(time_end_str[1:]))
@@ -101,3 +98,5 @@ if __name__ == "__main__":
         singleDataPlot(new_height1["tof3"].values, f"{sub_folder}/height1tof3.png", [0, 2000])
         singleDataPlot(new_height1["tof4"].values, f"{sub_folder}/height1tof4.png", [0, 2000])
         fingerDataPlot(new_finger1, f"{sub_folder}/finger1.png", [80, 80])
+
+        print("Done.")

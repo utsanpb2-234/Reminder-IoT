@@ -4,7 +4,7 @@ import numpy as np
 import soundfile as sf
 
 
-ser = serial.Serial("/dev/tty.usbmodem11101", 115200, timeout=4)
+ser = serial.Serial("/dev/tty.usbmodem11201", 115200, timeout=4)
 sound_file = "test.wav"
 sample_rate_hz = 8000
 
