@@ -3,6 +3,8 @@ from file_ops import writeFile
 from data_record import Sensor
 from paho.mqtt import client as mqtt_client
 import serial
+import serial.tools
+import serial.tools.list_ports
 import numpy as np
 import time
 import base64
@@ -51,31 +53,55 @@ sensorDataTransform = {
 }
 
 
-def dataMQTT(port=None, topic=None, client_id=None, sensorType=None):
-    ser = serial.Serial(port, 115200, timeout=4)
+def find_device_by_serial(usb_serial, topic):
+    while True:
+        device_list = serial.tools.list_ports.comports()
+        for device in device_list:
+            if device.serial_number == usb_serial:
+                print(f"Found device {usb_serial} on {device.device}")
+                return device.device
+        
+        print(f"Did not find device: {topic}-{usb_serial}, try again after 5 seconds")
+        time.sleep(5)
+
+
+def connect(usb_serial, topic):
+    serial_port = find_device_by_serial(usb_serial, topic)
+    ser = serial.Serial(serial_port, 115200, timeout=4)
+    print(f"Connected {serial_port}")
+    return ser
+
+
+def dataMQTT(usb_serial=None, topic=None, client_id=None, sensorType=None):
+    ser = connect(usb_serial, topic)
 
     client = mqtt_client.Client(client_id)
     client.connect(broker_ip, broker_port)
     client.loop_start()
 
-    print(f"start publishing...{topic}")
+    print(f"Start publishing...{topic}")
     try:
         while True:
-            if ser.in_waiting:
-                data = ser.readline()
-                try:
-                    data = data.decode("utf-8")[:-2]
+            try:
+                if ser.in_waiting:
+                    data = ser.readline()
+                    try:
+                        data = data.decode("utf-8")[:-2]
 
-                    # transform data based on sensor type
-                    data = sensorDataTransform[sensorType](data)
+                        # transform data based on sensor type
+                        data = sensorDataTransform[sensorType](data)
 
-                    client.publish(topic, data)
-                except:
-                    print(f"{topic}: pass one error reading.")
-                    pass
+                        client.publish(topic, data)
+                    except Exception as e:
+                        print(f"{topic}: pass one error reading.")
+                        pass
+            except Exception as e:
+                print(e)
+                print("Lost connection, reconnecting...")
+                ser = connect(usb_serial, topic)
     except KeyboardInterrupt:
         ser.close()
-        print(f"stopped publish...{topic}")
+        print(f"Stopped publishing...{topic}")
         client.loop_stop()
 
 
