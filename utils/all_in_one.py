@@ -11,7 +11,6 @@ import os
 
 if __name__ == "__main__":
     date_cur = datetime.datetime.now().strftime("%Y%m%d")
-    is_running = True
     record_idx = 0
     folder = f"{date_cur}_{record_idx}"
     while os.path.exists(folder):
@@ -26,12 +25,27 @@ if __name__ == "__main__":
         sensor_thread.start()
         time.sleep(1)
     
+    button_instances = []
+    button_threads = []
     for label in button_info.keys():
-        button = Thread(target=buttonRecord, args=(button_info[label][0], button_info[label][0], label,), daemon=True)
-        button.start()
+        button = buttonRecord(button_info[label][0], button_info[label][1], label, True, f"{folder}/button.csv")
+        button_thread = Thread(target=button.run, args=())
+        button_thread.start()
+        button_instances.append(button)
+        button_threads.append(button_thread)
         time.sleep(0.5)
     
+    print(button_instances)
+    print(button_threads)
+
     case1 = caseRecord(f"{folder}/case1.csv")
     case1.run()
 
+    for button_instance in button_instances:
+        button_instance.is_running = False
+
+    for button_thread in button_instances:
+        button_thread.join()
+    
     time.sleep(2)
+    print("all threads are ended.")
