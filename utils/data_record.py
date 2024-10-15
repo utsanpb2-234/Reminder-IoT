@@ -12,6 +12,7 @@ class Sensor(Enum):
     finger = 3
     mic = 4
     tof_penta = 5
+    button = 6
 
 
 sensorHeader = {
@@ -20,6 +21,7 @@ sensorHeader = {
     Sensor.finger: "time" + "".join([f",finger{i}" for i in range(6400)]) + "\n",
     Sensor.mic: "time,mic\n",
     Sensor.tof_penta: "time" + "".join([f",tof{i}" for i in range(5)]) + "\n",
+    Sensor.button: "time,button\n",
 }
 
 
@@ -77,5 +79,5 @@ class dataRecord():
 
 
 if __name__ == "__main__":
-    tof1 = dataRecord("40:4C:CA:F4:EF:58", "sensor_test.csv", Sensor.tof_penta)
+    tof1 = dataRecord("64:E8:33:83:F6:C0", "button_test.csv", Sensor.button)
     tof1.run()

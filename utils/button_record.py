@@ -1,3 +1,4 @@
+# deprecated since we dont use pi to monitor the buttons
 import time
 from file_ops import writeFile
 from gpiozero import LED, Button
