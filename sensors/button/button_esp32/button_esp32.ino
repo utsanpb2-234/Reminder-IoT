@@ -1,10 +1,10 @@
 #include <AceButton.h>
 using namespace ace_button;
 
-#define BLUE_LED D10
+#define BLUE_LED D1
 #define BLUE_BUTTON D2
 #define GREEN_LED D0
-#define GREEN_BUTTON D1
+#define GREEN_BUTTON D10
 
 AceButton blue_btn(BLUE_BUTTON);
 AceButton green_btn(GREEN_BUTTON);
