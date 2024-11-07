@@ -79,5 +79,5 @@ class dataRecord():
 
 
 if __name__ == "__main__":
-    tof1 = dataRecord("64:E8:33:83:F6:C0", "button_test.csv", Sensor.button)
+    tof1 = dataRecord("64:E8:33:83:F6:C0", "test_button.csv", Sensor.button)
     tof1.run()
