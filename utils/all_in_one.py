@@ -2,8 +2,9 @@ from threading import Thread
 from multiprocessing import Process
 from case_record import caseRecord
 from data_record import dataRecord, Sensor
+# from button_record import buttonRecord, deprecated since we dont use pi to monitor the buttons
 import time
-from record_config import sensors_info
+from record_config import sensors_info, button_info
 import datetime
 import os
 
@@ -20,11 +21,33 @@ if __name__ == "__main__":
 
     for sensor_port in sensors_info.keys():
         sensor = dataRecord(sensor_port, f"{folder}/{sensors_info[sensor_port][0]}", sensors_info[sensor_port][1])
-        sensor_thread = Process(target=sensor.run, args=(),daemon=True)
+        sensor_thread = Process(target=sensor.run, args=(), daemon=True)
         sensor_thread.start()
         time.sleep(1)
     
+    # deprecated since we dont use pi to monitor the buttons
+    # button_instances = []
+    # button_threads = []
+    # for label in button_info.keys():
+    #     button = buttonRecord(button_info[label][0], button_info[label][1], label, True, f"{folder}/button.csv")
+    #     button_thread = Thread(target=button.run, args=())
+    #     button_thread.start()
+    #     button_instances.append(button)
+    #     button_threads.append(button_thread)
+    #     time.sleep(0.5)
+    
+    # print(button_instances)
+    # print(button_threads)
+
     case1 = caseRecord(f"{folder}/case1.csv")
     case1.run()
 
+    # deprecated since we dont use pi to monitor the buttons
+    # for button_instance in button_instances:
+    #     button_instance.is_running = False
+
+    # for button_thread in button_threads:
+    #     button_thread.join()
+    
     time.sleep(2)
+    print("all threads are ended.")

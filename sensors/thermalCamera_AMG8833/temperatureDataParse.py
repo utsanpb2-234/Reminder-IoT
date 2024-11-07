@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from scipy import interpolate
 
-ser = serial.Serial("/dev/tty.usbmodem11101", 9600, timeout=4)
+ser = serial.Serial("/dev/cu.usbmodem1101", 115200, timeout=4)
 
 fig, ax = plt.subplots(nrows=1, figsize=(5,5), sharex=True)
 
