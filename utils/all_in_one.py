@@ -11,13 +11,18 @@ import os
 
 if __name__ == "__main__":
     
+    # data root dir
+    file_dir = os.path.dirname(os.path.abspath(__file__))
+    parent_dir = os.path.dirname(file_dir)
+    data_dir = os.path.join(parent_dir, "data")
+
     # prepare data root folder
     date_cur = datetime.datetime.now().strftime("%Y%m%d")
     record_idx = 0
-    folder = f"{date_cur}_{record_idx}"
+    folder = f"{data_dir}/{date_cur}_{record_idx}"
     while os.path.exists(folder):
         record_idx += 1
-        folder = f"{date_cur}_{record_idx}"
+        folder = f"{data_dir}/{date_cur}_{record_idx}"
 
     os.makedirs(folder)
 
