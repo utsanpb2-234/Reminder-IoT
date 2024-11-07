@@ -18,7 +18,7 @@ class caseRecord():
             elif cmd == "q":
                 break
             else:
-                case_info = f"{cmd}"
+                case_info = f"{cmd},s{time.time()}"
                 subject_name = cmd
                 while True:
                     sign = input(f"enter event for {subject_name} or e to end: ")
@@ -37,5 +37,5 @@ class caseRecord():
 
 
 if __name__ == "__main__":
-    case1 = caseRecord("data/caseinfo.csv")
+    case1 = caseRecord("test_caseinfo.csv")
     case1.run()

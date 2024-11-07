@@ -44,21 +44,23 @@ def fingerDataPlot(data, key, size=[80,80]):
 
 
 if __name__ == "__main__":
-    folder = "../data/20240415_1"
+    folder = "20240928_8"
     
     case1_file = os.path.join(folder, "case1.csv")
-    finger1_file = os.path.join(folder, "finger1.csv")
+    # finger1_file = os.path.join(folder, "finger1.csv")
     height1_file = os.path.join(folder, "height1.csv")
+    height2_file = os.path.join(folder, "height2.csv")
     thermal1_file = os.path.join(folder, "thermal1.csv")
     tof1_file = os.path.join(folder, "tof1.csv")
-    tof2_file = os.path.join(folder, "tof2.csv")
+    # tof2_file = os.path.join(folder, "tof2.csv")
 
     case1_pd = pd.read_csv(case1_file, header=None)
-    finger1_pd = pd.read_csv(finger1_file)
+    # finger1_pd = pd.read_csv(finger1_file)
     height1_pd = pd.read_csv(height1_file)
+    height2_pd = pd.read_csv(height2_file)
     thermal1_pd = pd.read_csv(thermal1_file)
     tof1_pd = pd.read_csv(tof1_file)
-    tof2_pd = pd.read_csv(tof2_file)
+    # tof2_pd = pd.read_csv(tof2_file)
 
     n = len(case1_pd)
 
@@ -76,11 +78,12 @@ if __name__ == "__main__":
         time_start = np.floor(float(time_start_str[1:]))
         time_end = np.ceil(float(time_end_str[1:]))
 
-        new_finger1 = dataSlice(finger1_pd, time_start, time_end)
+        # new_finger1 = dataSlice(finger1_pd, time_start, time_end)
         new_height1 = dataSlice(height1_pd, time_start, time_end)
+        new_height2 = dataSlice(height2_pd, time_start, time_end)
         new_thermal1 = dataSlice(thermal1_pd, time_start, time_end)
         new_tof1 = dataSlice(tof1_pd, time_start, time_end)
-        new_tof2 = dataSlice(tof2_pd, time_start, time_end)
+        # new_tof2 = dataSlice(tof2_pd, time_start, time_end)
         
         try:
             new_thermal1_max = []
@@ -91,12 +94,17 @@ if __name__ == "__main__":
             pass
 
         singleDataPlot(new_tof1["tof"].values, f"{sub_folder}/tof1.png", [0, 2000])
-        singleDataPlot(new_tof2["tof"].values, f"{sub_folder}/tof2.png", [0, 2000])
+        # singleDataPlot(new_tof2["tof"].values, f"{sub_folder}/tof2.png", [0, 2000])
         singleDataPlot(new_height1["tof0"].values, f"{sub_folder}/height1tof0.png", [0, 2000])
         singleDataPlot(new_height1["tof1"].values, f"{sub_folder}/height1tof1.png", [0, 2000])
         singleDataPlot(new_height1["tof2"].values, f"{sub_folder}/height1tof2.png", [0, 2000])
         singleDataPlot(new_height1["tof3"].values, f"{sub_folder}/height1tof3.png", [0, 2000])
         singleDataPlot(new_height1["tof4"].values, f"{sub_folder}/height1tof4.png", [0, 2000])
-        fingerDataPlot(new_finger1, f"{sub_folder}/finger1.png", [80, 80])
+        singleDataPlot(new_height2["tof0"].values, f"{sub_folder}/height2tof0.png", [0, 2000])
+        singleDataPlot(new_height2["tof1"].values, f"{sub_folder}/height2tof1.png", [0, 2000])
+        singleDataPlot(new_height2["tof2"].values, f"{sub_folder}/height2tof2.png", [0, 2000])
+        singleDataPlot(new_height2["tof3"].values, f"{sub_folder}/height2tof3.png", [0, 2000])
+        singleDataPlot(new_height2["tof4"].values, f"{sub_folder}/height2tof4.png", [0, 2000])
+        # fingerDataPlot(new_finger1, f"{sub_folder}/finger1.png", [80, 80])
 
         print("Done.")
