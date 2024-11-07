@@ -8,11 +8,14 @@ from data_record import Sensor
 # "usb_serial": ["filename", Sensor.type]
 sensors_info = {
     # "usb_serial": ["filename1", Sensor.tof_single],
-    "84:FC:E6:84:3A:2C": ["tof1.csv", Sensor.tof_single],
     "40:4C:CA:F4:EF:58": ["height1.csv", Sensor.tof_penta],
     "EC:DA:3B:BE:6D:80": ["height2.csv", Sensor.tof_penta],
     "64:E8:33:80:91:AC": ["thermal1.csv", Sensor.thermal],
+    "84:FC:E6:84:3A:2C": ["tof1.csv", Sensor.tof_single],
     "64:E8:33:83:F6:C0": ["button1.csv", Sensor.button],
+    # following is another pair of sensors
+    "64:E8:33:84:21:6C": ["thermal2.csv", Sensor.thermal],
+    "64:E8:33:86:8B:A0": ["tof2.csv", Sensor.tof_single],
     # hide the following
     # "usb_serial": ["finger1.csv", Sensor.finger],
     # "usb_serial": ["mic1.csv", Sensor.mic],
