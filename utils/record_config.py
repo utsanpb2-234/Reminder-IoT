@@ -29,10 +29,3 @@ sensors_info_mqtt = {
     # "usb_serial": ["test/finger1", "finger1_pi", Sensor.finger],
     # "usb_serial": ["test/mic1", "mic1_pi", Sensor.mic],
 }
-
-# deprecated since we dont use pi to monitor the buttons
-button_info = {
-    # "label": [button pin, led pin]
-    "blue": [2, 17],
-    "green": [27, 22],
-}
