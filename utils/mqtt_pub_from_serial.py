@@ -50,6 +50,7 @@ sensorDataTransform = {
     Sensor.finger: finger_to_base64,
     Sensor.mic: do_nothing,
     Sensor.tof_penta: do_nothing,
+    Sensor.button: do_nothing,
 }
 
 

@@ -37,6 +37,9 @@ if __name__ == "__main__":
     sound_instance = soundDeviceRecord(usb_name="USB PnP Sound Device", filename=f"{folder}/sound1.wav")
     sound_process = Process(target=sound_instance.run, args=())
     sound_process.start()
+    time.sleep(2)
+
+    print(f"Data is stored at {folder}\n")
 
     case1 = caseRecord(f"{folder}/case1.csv")
     case1.run()
