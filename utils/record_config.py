@@ -36,3 +36,16 @@ sensors_info_mqtt = {
     # "usb_serial": ["test/finger1", "finger1_pi", Sensor.finger],
     # "usb_serial": ["test/mic1", "mic1_pi", Sensor.mic],
 }
+
+#### restroom 1 info start ####
+# height1 is next to door outside
+# height2 is next to door inside
+restroom_info = {
+    "door_width": 610,
+    "door_sensor_height": 1520,
+    "sink_depth": 560,
+    "sink_sensor_height": 945,
+    "toilet_depth": 710,
+    "toilet_sensor_height": 910,
+}
+#### restroom 1 info end  ####
