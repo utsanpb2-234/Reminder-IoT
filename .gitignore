@@ -8,3 +8,5 @@ data
 
 __pycache__
 sensors/builtin_mic/test.wav
+
+*.log
