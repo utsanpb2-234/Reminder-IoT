@@ -23,7 +23,7 @@ broker_port = 1883
 
 # data transform functions:
 def finger_to_base64(data):
-    data = data.split(",")
+    data = data.split(",")[1:]
     data = [int(i) for i in data]
     data = np.reshape(data, (80, 80))
 
@@ -44,6 +44,8 @@ def finger_to_base64(data):
 
 
 def do_nothing(data):
+    data_list = data.split(",")[1:]
+    data = ",".join(data_list)
     return data
 
 
