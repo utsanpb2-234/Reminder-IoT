@@ -4,6 +4,9 @@ from paho.mqtt import client as mqtt_client
 import datetime
 import logging
 import os
+os.environ['SDL_AUDIODRIVER'] = 'alsa'
+import socket
+
 
 # get basic info
 file_dir = os.path.dirname(os.path.abspath(__file__))
@@ -19,24 +22,30 @@ file_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
 
 # pygame initialization
+pygame.mixer.pre_init(44100, -16, 2, 2048)
 pygame.init()
+
+#pygame.mixer.init()
 
 # sound file
 toilet_file = os.path.join(file_dir, "audio_flush_toilet.wav")
+#toilet_file = "audio_flush_toilet.wav"
 toilet_sound = pygame.mixer.Sound(toilet_file)
 
 sink_file = os.path.join(file_dir, "audio_wash_hands.wav")
+#sink_file = "audio_wash_hands.wav"
 sink_sound = pygame.mixer.Sound(sink_file)
 
 # mqtt info
-broker_ip = "192.168.1.159"
+broker_ip = "192.168.0.146"
 broker_port = 1883
 topic = "test/button1"
-client_id = "speaker1_pi"
+client_id = f"speaker_{socket.gethostname()}"
+print (client_id)
 
 # callback
 def on_message(client, userdata, message):
-    msg = message.payload.decode("utf-8")
+    msg = message.payload.decode("utf-8").strip()
     logger.info(msg)
     # blue button is washing hands
     if msg == "blue":
@@ -46,7 +55,7 @@ def on_message(client, userdata, message):
         toilet_sound.play()
 
 # connect to mqtt broker
-client = mqtt_client.Client(callback_api_version=mqtt_client.CallbackAPIVersion.VERSION1, client_id=client_id)
+client = mqtt_client.Client(client_id=client_id)
 client.connect(broker_ip, broker_port)
 client.subscribe(topic, qos=2)
 client.on_message = on_message
