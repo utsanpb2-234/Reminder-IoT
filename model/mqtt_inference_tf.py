@@ -148,6 +148,7 @@ if __name__ == "__main__":
             # Decode the predicted class back to the original label
             decoded_label = [label_encoder.get_vocabulary()[i] for i in predicted_class]
             print(f"Predicted_class: {predicted_class}. Predicted Label: {decoded_label}")
+            client.publish("test/position", ''.join(decoded_label), qos=2)
 
             time.sleep(0.5)
 
