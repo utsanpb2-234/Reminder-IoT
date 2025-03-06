@@ -7,6 +7,8 @@ import time
 import sys
 
 
+tf.keras.utils.set_random_seed(1)
+
 def load_single_data(feature_path, label_path):
     
     # load feature from pickle
@@ -124,21 +126,32 @@ def design_model(input_shape, num_output):
 
 def train_model_position(dataset_folder_list, label_encoder, input_shape=(15,140,1), batch_size=16, epoch=20, shuffle=True):
 
-    # load multiple data files and merge into one object
-    features, labels = load_multi_data(dataset_folder_list)
-    
-    # process data
-    feature_list, label_list = process_data(features, labels, label_encoder)
+    train_set_file = f'{file_dir}/tf_train_set'
+    test_set_file = f'{file_dir}/tf_test_set'
 
-    # build dataset (tf.data.dataset)
-    dataset = build_dataset(feature_list, label_list, batch_size=batch_size, shuffle=shuffle)
+    if os.path.exists(test_set_file):
+        train_set = tf.data.Dataset.load(train_set_file)
+        valid_set = tf.data.Dataset.load(test_set_file)
+        print("Dataset loaded from file!")
+    else:
+        # load multiple data files and merge into one object
+        features, labels = load_multi_data(dataset_folder_list)
+        
+        # process data
+        feature_list, label_list = process_data(features, labels, label_encoder)
 
-    # split dataset into train and val
-    train_size = int(len(dataset)*0.8)
-    train_set = dataset.take(train_size)
-    valid_set = dataset.skip(train_size)
+        # build dataset (tf.data.dataset)
+        dataset = build_dataset(feature_list, label_list, batch_size=16, shuffle=True)
 
-    print(f"whole set has: {len(dataset)} batches when batch size is: {batch_size}")
+        # split dataset into train and val
+        train_size = int(len(dataset)*0.8)
+        train_set = dataset.take(train_size)
+        valid_set = dataset.skip(train_size)
+
+        tf.data.Dataset.save(train_set, train_set_file)
+        tf.data.Dataset.save(valid_set, test_set_file)
+        print("Dataset saved to file!")
+
     print(f"train set has: {len(train_set)} batches when batch size is: {batch_size}")
     print(f"valid set has: {len(valid_set)} batches when batch size is: {batch_size}")
 
@@ -150,8 +163,10 @@ def train_model_position(dataset_folder_list, label_encoder, input_shape=(15,140
     
     model.summary()
 
+    callback = tf.keras.callbacks.EarlyStopping(monitor='loss', patience=3)
+
     # train the model
-    model.fit(train_set, validation_data=valid_set, epochs=epoch)
+    model.fit(train_set, validation_data=valid_set, epochs=epoch, callbacks=[callback])
 
     # return model
     return model
@@ -193,5 +208,3 @@ if __name__ == "__main__":
     model_path = f'{file_dir}/cnn_model.keras'
     model.save(model_path)
     print(f"Model saved to: {model_path}")
-
-

@@ -10,3 +10,6 @@ __pycache__
 sensors/builtin_mic/test.wav
 
 *.log
+
+tf_train_set/
+tf_test_set/
