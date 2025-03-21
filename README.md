@@ -1,6 +1,10 @@
 # Reminder-IoT
 This repository stores everything we need to implement our reminder system, which is an AI reminder that supports scalability, muti-modal, real-time inference, dashboard, decomposed subsystems, etc.
 
+## Watch our demo video
+
+[Youtube link](https://youtu.be/yG0fzkwrp3g?si=nT3MOcIuur6gKR5z)
+
 ## 1. Folders
 
 * 3D prints: This folder stores the designed 3D printing parts for the hardware.
