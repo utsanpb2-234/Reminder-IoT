@@ -3,7 +3,7 @@ This repository stores everything we need to implement our reminder system, whic
 
 ## Watch our demo video
 
-[Youtube link](https://youtu.be/yG0fzkwrp3g?si=nT3MOcIuur6gKR5z)
+[YouTube link](https://youtu.be/yG0fzkwrp3g?si=nT3MOcIuur6gKR5z)
 
 ## 1. Folders
 
