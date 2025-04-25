@@ -1,3 +1,4 @@
+# subscribe to mqtt topics and record data to csv files
 import serial
 import numpy as np
 import time

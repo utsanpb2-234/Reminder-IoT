@@ -1,3 +1,5 @@
+# count the info of label_by_frame.json for each folder
+# support folder list
 import os
 from file_ops import read_from_json
 from collections import Counter

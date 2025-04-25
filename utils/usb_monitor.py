@@ -1,3 +1,4 @@
+# display all USB devices connected to the system in real-time
 import serial
 import serial.tools
 import serial.tools.list_ports

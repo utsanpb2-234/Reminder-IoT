@@ -245,8 +245,9 @@ if __name__ == "__main__":
     num_classes = len(precision)
     
     print("\nPer-class metrics:")
+    print("class & precision & recall & F1-score & support")
     for i, class_label in enumerate(decoded_labels[1:]):
-        print(f"Class {class_label}: Precision={precision[i]:.4f}, Recall={recall[i]:.4f}, F1-score={f1[i]:.4f}, Support={support[i]}")
+        print(f"{class_label} & {precision[i]:.4f} & {recall[i]:.4f} & {f1[i]:.4f} & {support[i]}")
 
     print("\nConfusion Matrix (Rows: True Class, Columns: Predicted Class):")
     print(conf_matrix)

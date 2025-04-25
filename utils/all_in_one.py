@@ -1,3 +1,5 @@
+# main function to run to collect data and record case
+# it runs all the processes in parallel
 from threading import Thread
 from multiprocessing import Process
 from case_record import caseRecord

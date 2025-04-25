@@ -1,3 +1,5 @@
+# class file for USB data recording
+# device is identified by serial number
 import time
 from file_ops import writeFile
 import serial

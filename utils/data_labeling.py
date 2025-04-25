@@ -1,3 +1,6 @@
+# run data_info.py first
+# label_by_frame: label the data by frame
+# label_by_window: label the data by window size, should be run after label_by_frame
 import os
 from file_ops import save_to_json, read_from_json
 from collections import Counter
@@ -105,4 +108,5 @@ if __name__ == "__main__":
     dataset_folder = os.path.join(folder, "dataset")
 
     # label_by_frame(dataset_folder)
+    # run this function after you run label_by_frame once
     label_by_window(dataset_folder, window_size_frame)

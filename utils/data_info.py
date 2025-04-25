@@ -1,3 +1,6 @@
+# this should be run before data_labeling.py
+# go over each data folder and generate label for each subject and session
+# save the label into *_data_info.json
 import tkinter as tk
 from tkinter import filedialog
 from PIL import Image, ImageTk
@@ -92,7 +95,7 @@ if __name__ == "__main__":
     data_dir = os.path.join(parent_dir, "data")
 
     # data folder
-    folder_name = "20241109_4"
+    folder_name = "20250207_0"
     folder = os.path.join(data_dir, folder_name)
 
     # dataset dir

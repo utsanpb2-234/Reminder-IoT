@@ -1,3 +1,5 @@
+# plot figures for each session with a specific window size
+# and save the dataset into pkl files
 import sys
 import os
 import time
@@ -204,7 +206,7 @@ if __name__ == "__main__":
     data_dir = os.path.join(parent_dir, "data")
 
     # data folder
-    folder_name = "20241109_8"
+    folder_name = "20250207_1"
     window_size = 3
     folder = os.path.join(data_dir, folder_name)
 
@@ -217,7 +219,8 @@ if __name__ == "__main__":
 
     # dataset folder
     dataset_folder = os.path.join(folder, "dataset")
-        
+    
+    # dataset folder guard
     if not os.path.exists(dataset_folder):
         print(f"create folder {dataset_folder}")
         os.mkdir(dataset_folder)

@@ -1,3 +1,5 @@
+# read data from serial port and publish to mqtt broker
+# each sensor has its own process
 from record_config import *
 from file_ops import writeFile
 from data_record import Sensor
