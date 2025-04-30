@@ -101,12 +101,12 @@ if __name__ == "__main__":
     data_dir = os.path.join(parent_dir, "data")
 
     # data folder
-    folder_name = "20241109_8"
+    folder_name = "20250207_1"
     folder = os.path.join(data_dir, folder_name)
 
     # dataset folder
     dataset_folder = os.path.join(folder, "dataset")
 
-    # label_by_frame(dataset_folder)
+    label_by_frame(dataset_folder)
     # run this function after you run label_by_frame once
     label_by_window(dataset_folder, window_size_frame)

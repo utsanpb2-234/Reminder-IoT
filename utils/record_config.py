@@ -40,12 +40,25 @@ sensors_info_mqtt = {
 #### restroom 1 info start ####
 # height1 is next to door outside
 # height2 is next to door inside
-restroom_info = {
-    "door_width": 610,
-    "door_sensor_height": 1520,
-    "sink_depth": 560,
-    "sink_sensor_height": 945,
-    "toilet_depth": 710,
-    "toilet_sensor_height": 910,
-}
+# restroom_info = {
+#     "door_width": 610,
+#     "door_sensor_height": 1520,
+#     "sink_depth": 560,
+#     "sink_sensor_height": 945,
+#     "toilet_depth": 710,
+#     "toilet_sensor_height": 910,
+# }
 #### restroom 1 info end  ####
+
+#### event02/07 info start ####
+# height1 is next to door outside
+# height2 is next to door inside
+restroom_info = {
+    "door_width": 900,
+    "door_sensor_height": 1280,
+    "sink_depth": 600,
+    "sink_sensor_height": 100,  # 100mm above the sink not the floor
+    "toilet_depth": 620,
+    "toilet_sensor_height": 810,
+}
+#### event02/07 info end  ####

@@ -206,7 +206,7 @@ if __name__ == "__main__":
     data_dir = os.path.join(parent_dir, "data")
 
     # data folder
-    folder_name = "20250207_1"
+    folder_name = "20250207_0"
     window_size = 3
     folder = os.path.join(data_dir, folder_name)
 
