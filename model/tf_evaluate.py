@@ -167,13 +167,14 @@ if __name__ == "__main__":
     parent_dir = os.path.dirname(file_dir)
     data_dir = os.path.join(parent_dir, "data")
 
-    label_encoder_path = f'{file_dir}/label_encoder.pkl'
+    dataset_date = "20250207"
+    label_encoder_path = f'{file_dir}/{dataset_date}_label_encoder.pkl'
     f = open(label_encoder_path, "rb")
     label_encoder = pickle.load(f)
     f.close()
 
     # data folder
-    folder_name_list = ["20241109_4", "20241109_6", "20241109_8"]
+    folder_name_list = [f"{dataset_date}_0", f"{dataset_date}_1"]
     folder_list = [os.path.join(data_dir, folder_name) for folder_name in folder_name_list]
 
     ### sensor order ###
@@ -184,8 +185,8 @@ if __name__ == "__main__":
     # dataset folder
     dataset_folder_list = [os.path.join(folder, "dataset") for folder in folder_list]
 
-    train_set_file = f'{file_dir}/tf_train_set'
-    test_set_file = f'{file_dir}/tf_test_set'
+    train_set_file = f'{file_dir}/{dataset_date}_tf_train_set'
+    test_set_file = f'{file_dir}/{dataset_date}_tf_test_set'
 
     if os.path.exists(test_set_file):
         valid_set = tf.data.Dataset.load(test_set_file)
@@ -210,7 +211,7 @@ if __name__ == "__main__":
         print("Dataset saved to file!")
 
     # load the model and perform inference
-    loaded_model = tf.keras.models.load_model(f'{file_dir}/cnn_model.keras')
+    loaded_model = tf.keras.models.load_model(f'{file_dir}/{dataset_date}_cnn_model.keras')
 
     y_true_list = []
     y_pred_list = []

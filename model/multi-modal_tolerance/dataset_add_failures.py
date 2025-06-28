@@ -1,4 +1,5 @@
 # create dataset for multi-modal tolerance system
+# this is step one of the data preprocessing pipeline
 import json
 import pickle
 import os
@@ -140,8 +141,8 @@ if __name__ == "__main__":
     data_root_dir = os.path.join(root_dir, "data")
     
     # data folder
-    folder_name_list = ["20241109_4", "20241109_6", "20241109_8"]
-    dataset_prefix = "20241109"
+    folder_name_list = ["20250207_0", "20250207_1"]
+    dataset_prefix = "20250207"
     folder_list = [os.path.join(data_root_dir, folder_name) for folder_name in folder_name_list]
     
     # dataset folder

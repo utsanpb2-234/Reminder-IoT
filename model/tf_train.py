@@ -126,8 +126,8 @@ def design_model(input_shape, num_output):
 
 def train_model_position(dataset_folder_list, label_encoder, input_shape=(15,140,1), batch_size=16, epoch=20, shuffle=True):
 
-    train_set_file = f'{file_dir}/tf_train_set'
-    test_set_file = f'{file_dir}/tf_test_set'
+    train_set_file = f'{file_dir}/{dataset_date}_tf_train_set'
+    test_set_file = f'{file_dir}/{dataset_date}_tf_test_set'
 
     if os.path.exists(test_set_file):
         train_set = tf.data.Dataset.load(train_set_file)
@@ -179,7 +179,8 @@ if __name__ == "__main__":
     data_dir = os.path.join(parent_dir, "data")
 
     # data folder
-    folder_name_list = ["20241109_4", "20241109_6", "20241109_8"]
+    dataset_date = "20250207"
+    folder_name_list = [f"{dataset_date}_0", f"{dataset_date}_1"]
     folder_list = [os.path.join(data_dir, folder_name) for folder_name in folder_name_list]
 
     # dataset folder
@@ -188,14 +189,14 @@ if __name__ == "__main__":
     ### sensor order ###
     # The height sensor array that is located to outside of the door should put first
     sensor_order = ['height1.csv', 'height2.csv', 'thermal1.csv', 'tof1.csv', 'thermal2.csv', 'tof2.csv']
-    ### sensor order ### 
+    ### sensor order ###
 
     # label encoder
     possible_labels = ["empty", "door_in", "door_out", "sink", "toilet", "other"]
     label_encoder = tf.keras.layers.StringLookup(vocabulary=possible_labels, output_mode='one_hot')
     
     # Save the label_encoder (StringLookup) object using pickle
-    label_encoder_path = f'{file_dir}/label_encoder.pkl'
+    label_encoder_path = f'{file_dir}/{dataset_date}_label_encoder.pkl'
 
     with open(label_encoder_path, 'wb') as f:
         pickle.dump(label_encoder, f)
@@ -205,6 +206,6 @@ if __name__ == "__main__":
     model = train_model_position(dataset_folder_list, label_encoder=label_encoder, input_shape=(15, 140, 1), batch_size=16, epoch=20, shuffle=False)
 
     # save model
-    model_path = f'{file_dir}/cnn_model.keras'
+    model_path = f'{file_dir}/{dataset_date}_cnn_model.keras'
     model.save(model_path)
     print(f"Model saved to: {model_path}")
