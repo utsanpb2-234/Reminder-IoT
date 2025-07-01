@@ -11,6 +11,14 @@ import datetime
 import os
 
 
+def sensor_worker(usb_serial, filename, sensor_type):
+    sensor = dataRecord(usb_serial, filename, sensor_type)
+    sensor.run()
+
+def sound_worker(usb_name, filename):
+    sound_instance = soundDeviceRecord(usb_name=usb_name, filename=filename)
+    sound_instance.run()
+
 if __name__ == "__main__":
     
     # data root dir
@@ -30,14 +38,12 @@ if __name__ == "__main__":
 
     # start sensor process
     for sensor_port in sensors_info.keys():
-        sensor = dataRecord(sensor_port, f"{folder}/{sensors_info[sensor_port][0]}", sensors_info[sensor_port][1])
-        sensor_process = Process(target=sensor.run, args=(), daemon=True)
+        sensor_process = Process(target=sensor_worker, args=(sensor_port, f"{folder}/{sensors_info[sensor_port][0]}", sensors_info[sensor_port][1]), daemon=True)
         sensor_process.start()
         time.sleep(1)
 
     # start sound record process
-    sound_instance = soundDeviceRecord(usb_name="USB PnP Sound Device", filename=f"{folder}/sound1.wav")
-    sound_process = Process(target=sound_instance.run, args=())
+    sound_process = Process(target=sound_worker, args=("USB PnP Sound Device", f"{folder}/sound1.wav"))
     sound_process.start()
     time.sleep(2)
 

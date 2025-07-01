@@ -39,6 +39,9 @@ class soundDeviceRecord():
 
     def find_device_by_name(self):
         while True:
+            # Terminate and re-initialize PortAudio to refresh device list
+            sd._terminate()
+            sd._initialize()
             device_list = sd.query_devices()
             for device in device_list:
                 if self.usb_name in device["name"]:

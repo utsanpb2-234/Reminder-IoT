@@ -42,23 +42,36 @@ class dataRecord():
 
     def run(self):
         print(f"Start recording...{self.file}")
+        buffer = []
+        buffer_limit = 10
+        flush_interval = 2
+
+        last_flush = time.time()
         try:
-            while True:
-                try:
-                    if self.ser.in_waiting:
-                        data = self.ser.readline()
-                        try:
-                            now_time = time.time()
-                            data = data.decode("utf-8")[:-2]
-                            # print(f"{self.file}\t{data}")
-                            writeFile(self.file, f"{now_time},{data}\n", "a")
-                        except Exception as e:
-                            print("pass one error reading.")
-                            pass
-                except Exception as e:
-                    print(f"ERROR {self.file}:{e}")
-                    print("Lost connection, reconnecting...")
-                    self.connect()
+            with open(self.file, "a") as f:
+                while True:
+                    try:
+                        if self.ser.in_waiting:
+                            data = self.ser.readline()
+                            try:
+                                now_time = time.time()
+                                data = data.decode("utf-8")[:-2]
+                                # print(f"{self.file}\t{data}")
+                                buffer.append(f"{now_time},{data}\n")
+                                if len(buffer) >= buffer_limit or (time.time() - last_flush) >= flush_interval:
+                                    f.writelines(buffer)
+                                    f.flush()
+                                    buffer.clear()
+                                    last_flush = time.time()
+                            except Exception as e:
+                                print("pass one error reading.")
+                                pass
+                        else:
+                            time.sleep(0.01)
+                    except Exception as e:
+                        print(f"ERROR {self.file}:{e}")
+                        print("Lost connection, reconnecting...")
+                        self.connect()
         except KeyboardInterrupt:
             self.ser.close()
             print(f"\nStopped recording...{self.file}")
