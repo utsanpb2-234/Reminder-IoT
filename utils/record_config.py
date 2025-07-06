@@ -16,7 +16,7 @@ sensors_info = {
     # following is another pair of sensors
     "64:E8:33:84:21:6C": ["thermal2.csv", Sensor.thermal],
     "64:E8:33:86:8B:A0": ["tof2.csv", Sensor.tof_single],
-    "84:FC:E6:84:31:D0": ["other1.csv", Sensor.tof_single],
+    "84:FC:E6:84:31:D0": ["other1.csv", Sensor.other],
     # hide the following
     # "usb_serial": ["finger1.csv", Sensor.finger],
     # "usb_serial": ["mic1.csv", Sensor.mic],

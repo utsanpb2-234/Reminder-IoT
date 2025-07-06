@@ -15,6 +15,7 @@ class Sensor(Enum):
     mic = 4
     tof_penta = 5
     button = 6
+    other = 7
 
 
 sensorHeader = {
@@ -24,6 +25,7 @@ sensorHeader = {
     Sensor.mic: "time,mic\n",
     Sensor.tof_penta: "time" + "".join([f",tof{i}" for i in range(5)]) + "\n",
     Sensor.button: "time,button\n",
+    Sensor.other: "time,humid,temp,PIR\n"
 }
 
 
